@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Ciello • OSTRA 26/27 Candidate</title>
+  <style>
+    /* ----- CSS variables & base reset ----- */
+    :root {
+      --bg-dark: #0e1117;
+      --bg-deep: #171c24;
+      --bg-card-dark: #1f2630;
+      --bg-light: #f5f7fa;
+      --surface-white: #ffffff;
+      --text-primary: #1e2633;
+      --text-secondary: #3f4a5a;
+      --text-light: #eef2f6;
+      --text-muted: #a7b1c0;
+      --accent-blue: #3a6ea5;
+      --accent-soft: #5c8ec0;
+      --border-subtle: #dce2ea;
+      --border-dark: #2b3542;
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-hover: 0 12px 22px -8px rgba(0,0,0,0.12);
+      --transition: 0.2s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      background-color: var(--bg-light);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ----- typography & spacing ----- */
+    h1, h2, h3 {
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 65ch;
+    }
+
+    .section {
+      padding: 4.5rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* ----- buttons ----- */
+    .btn {
+      display: inline-block;
+      background-color: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background-color var(--transition), transform var(--transition);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn:hover {
+      background-color: #2d5680;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent-blue);
+      color: var(--accent-blue);
+      box-shadow: none;
+      font-weight: 500;
+    }
+
+    .btn-outline:hover {
+      background: rgba(58, 110, 165, 0.08);
+    }
+
+    /* ----- header/nav ----- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.7rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight:500;
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-blue);
+    }
+
+    .contact-btn {
+      background: transparent;
+      border: 1px solid var(--text-primary);
+      padding: 0.35rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0.3rem;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: #1e2633;
+      transition: 0.2s;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: white;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      gap: 1.2rem;
+    }
+
+    .mobile-menu a {
+      text-decoration: none;
+      color: #1e2633;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .mobile-menu.show {
+      display: flex;
+    }
+
+    /* ----- dark hero ----- */
+    .hero-dark {
+      background-color: var(--bg-dark);
+      color: #fff;
+      padding: 5rem 1.5rem 4rem;
+    }
+
+    .hero-content {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-heading {
+      font-size: clamp(2.8rem, 8vw, 4.8rem);
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.8rem;
+      color: white;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+      color: #aab6c6;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-learning {
+      background: #1e2633;
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: #cdd9e6;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ----- cards & grid ----- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--surface-white);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1.2rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .status-badge {
+      background: #e6edf5;
+      color: #2c4258;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* ----- dark sections ----- */
+    .section-dark {
+      background-color: var(--bg-deep);
+      color: #e9eef3;
+    }
+
+    .section-dark .section-sub,
+    .section-dark h2,
+    .section-dark p {
+      color: #dbe2ea;
+    }
+
+    .dark-card {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .dark-card:hover {
+      border-color: #3a4a5a;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .dark-card h3 {
+      color: #fff;
+    }
+
+    .dark-card p {
+      color: #b7c3d0;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .timeline-item {
+      background: white;
+      border-left: 4px solid var(--accent-blue);
+      padding: 1rem 1.2rem;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .contact-icon-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #1e2633;
+      background: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 40px;
+      border: 1px solid #dce2ea;
+      transition: all var(--transition);
+      font-weight: 500;
+    }
+
+    .contact-icon-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    footer {
+      background: #0e1117;
+      color: #b0bcca;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    footer a {
+      color: #d0dae4;
+      text-decoration: none;
+    }
+
+    /* responsiveness */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .section { padding: 3rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <a href="#home" class="logo">CMXH</a>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#works">Works</a>
+      <a href="#ostra">OSTRA</a>
+      <a href="#contact" class="contact-btn">Contact →</a>
+    </nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#works">Works</a>
+      <a href="#ostra">OSTRA</a>
+      <a href="#contact">Contact →</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero-dark" id="home">
+      <div class="hero-content">
+        <span class="hero-label">OSTRA 26/27 — CANDIDATE PORTFOLIO</span>
+        <h1 class="hero-heading">Hi, I'm Ciello.</h1>
+        <div class="hero-sub">X TKJ 1 • Technology Enthusiast</div>
+        <p class="hero-desc">I enjoy exploring technology through coding, frontend development, UI/UX design, video editing, and networking.</p>
+        <span class="hero-learning">Currently learning → Backend Development</span>
+        <div class="hero-buttons">
+          <a href="#works" class="btn">Explore My Work →</a>
+          <a href="#contact" class="btn btn-outline" style="border-color:#fff; color:#fff;">Contact Me →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT ME -->
+    <section class="section" id="about">
+      <span class="section-sub">Introduction</span>
+      <h2>A little about me.</h2>
+      <p style="margin-bottom:2rem;">My name is Marciello Mighty Hadianto, usually called Ciello. I am a student of X TKJ 1 who is interested in technology and creative work. I enjoy learning through practice, experimenting with new ideas, and turning what I learn into something tangible. My interests currently revolve around frontend development, coding, UI/UX design, video editing, and networking.</p>
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px,1fr));">
+        <div class="info-card"><div class="info-label">NAME</div><div class="info-value">Marciello Mighty Hadianto</div></div>
+        <div class="info-card"><div class="info-label">NICKNAME</div><div class="info-value">Ciello</div></div>
+        <div class="info-card"><div class="info-label">CLASS</div><div class="info-value">X TKJ 1</div></div>
+        <div class="info-card"><div class="info-label">MAJOR</div><div class="info-value">Teknik Komputer dan Jaringan</div></div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <span class="section-sub">Capabilities</span>
+      <h2>What I Work With</h2>
+      <div class="card-grid">
+        <div class="card"><h3>Frontend Development</h3><span class="status-badge">Proficient</span><p>HTML, CSS, JavaScript — building responsive interfaces and exploring modern frontend development.</p></div>
+        <div class="card"><h3>UI/UX Design</h3><span class="status-badge">5+ Designs</span><p>Designing interfaces with attention to usability, layout, and visual hierarchy.</p></div>
+        <div class="card"><h3>Video Editing</h3><span class="status-badge">20+ Works</span><p>Creating and editing various types of video content and visual projects.</p></div>
+        <div class="card"><h3>Programming</h3><span class="status-badge">Active Learning</span><p>Developing programming fundamentals through projects and experimentation.</p></div>
+        <div class="card"><h3>Networking</h3><span class="status-badge">Learning & Practicing</span><p>Exploring networking fundamentals and practical concepts related to TKJ.</p></div>
+        <div class="card"><h3>Backend Development</h3><span class="status-badge">Currently Learning</span><p>Exploring backend concepts and gradually expanding development skills.</p></div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section class="section" id="certifications">
+      <span class="section-sub">Recognition</span>
+      <h2>Learning & Certifications</h2>
+      <div class="card-grid">
+
+        <div class="card"><h3>SMPK Santo Yusup</h3><p><strong>Dewan Kerja Pramuka (DKP)
+        </strong><br> SMPK Santo yusup, tropodo · February, 30, 2026</p><p style="margin-top:0.5rem;">Anggota Dewan Kerja Pramuka</p></div>
+
+        <div class="card"><h3>SMPK Santo Yusup</h3><p><strong>Pasukan Paskibraka
+        </strong><br> SMPK Santo yusup, tropodo · August, 17, 2024.</p><p style="margin-top:0.5rem;">Pasukan Paskibraka 17 agustus 2024</p></div>
+
+        <div class="card"><h3>SMPK Santo Yusup</h3><p><strong>Pasukan Paskibraka
+        </strong><br> SMPK Santo yusup, tropodo · August, 17, 2025.</p><p style="margin-top:0.5rem;">Pasukan Paskibraka 17 agustus 2025</p></div>
+
+        <div class="card"><h3>Timedoor academy</h3><p><strong>TEENS WEB DEVELOPER
+        </strong><br> Timedoor academy · April, 23, 2025.</p><p style="margin-top:0.5rem;">For successfully completing the programming crouse in TEENS WEB DEVELOPER level</p></div>
+
+         <div class="card"><h3>Timedoor academy</h3><p><strong>TEENS GAME DEVELOPER
+         </strong><br> Timedoor academy · September, 23, 2024.</p><p style="margin-top:0.5rem;">For successfully completing the programming crouse in TEENS GAME DEVELOPER level</p></div>
+
+         <div class="card"><h3>Timedoor academy</h3><p><strong>TEENS PROGRAMMER
+         </strong><br> Timedoor academy · February, 5, 2024.</p><p style="margin-top:0.5rem;">For successfully completing the programming crouse in TEENS PROGRAMMER level</p></div>
+
+         <div class="card"><h3>Timedoor academy</h3><p><strong>ANDROID APPS DEVELOPER
+         </strong><br> Timedoor academy · April, 21, 2024.</p><p style="margin-top:0.5rem;">For successfully completing the programming crouse in ANDROID APPS DEVELOPER level</p></div>
+
+        <div class="card"><h3>ID-Networkers</h3><p><strong>Jaringan komputer dasar</strong><br> ID-Networkers · June, 1, 2026.</p><p style="margin-top:0.5rem;">Telah menyelesaikan kursus online "Jaringan komputer dasar" yang diselanggarakan oleh ID-Networkers (IDN.ID)</p></div>
+
+        <div class="card"><h3>ID-Networkers</h3><p><strong>Belajar simulasi jaringan dengan PNETlab</strong><br> ID-Networkers · June, 3, 2026.</p><p style="margin-top:0.5rem;">Telah menyelesaikan kursus online "Belajar simulasi jaringan dengan PNETlab" yang diselanggarakan oleh ID-Networkers (IDN.ID)</p></div>
+
+        <div class="card"><h3>ID-Networkers</h3><p><strong>Cisco dasar</strong><br> ID-Networkers · June, 2, 2026.</p><p style="margin-top:0.5rem;">Telah menyelesaikan kursus online "Cisco dasar" yang diselanggarakan oleh ID-Networkers (IDN.ID)</p></div>
+
+        <div class="card"><h3>ID-Networkers</h3><p><strong>Belajar linux dari nol+</strong><br> ID-Networkers · June, 4, 2026.</p><p style="margin-top:0.5rem;">Telah menyelesaikan kursus online "Belajar linux dari nol+" yang diselanggarakan oleh ID-Networkers (IDN.ID)</p></div>
+
+        <div class="card"><h3>ID-Networkers</h3><p><strong>Cyber security dasar</strong><br> ID-Networkers · June, 3, 2026.</p><p style="margin-top:0.5rem;">Telah menyelesaikan kursus online "Cyber security dasar" yang diselanggarakan oleh ID-Networkers (IDN.ID)</p></div>
+        
+      </div>
+    </section>
+
+    <!-- WORKS (text-only project placeholders) -->
+    <section class="section section-dark" id="works">
+      <span class="section-sub" style="color:#a7b8c9;">Portfolio</span>
+      <h2>Selected Works</h2>
+      <div class="card-grid">
+        <div class="dark-card"><h3>Video Editing</h3><p>20+ Works — project documentation available upon request.</p>
+        </div>
+        <div class="dark-card"><h3>UI/UX Design</h3><p>5+ Designs — interface mockups and case studies in development.</p>
+        </div>
+        <div class="dark-card"><h3>Frontend</h3><p>Web Projects — clean, responsive code experiments.</p></div>
+        <div class="dark-card"><h3>Programming</h3><p>Coding Projects — algorithm challenges and small utilities.</p></div>
+      </div>
+    </section>
+
+    <!-- CURRENTLY LEARNING -->
+    <section class="section" id="learning">
+      <span class="section-sub">Growth</span>
+      <h2>Currently Learning</h2>
+      <p style="margin-bottom:2rem;"><strong>Main focus: Backend Development</strong> — I am currently exploring backend development to better understand how applications work beyond the interface.</p>
+      <div class="timeline-list">
+        <div class="timeline-item"><strong>Vibe Coding</strong> — Just for funhhh</div> 
+        <div class="timeline-item"><strong>Programming fundamentals</strong> — strengthening core coding skills</div>
+        <div class="timeline-item"><strong>Networking</strong> — deeper TKJ concepts</div>
+        <div class="timeline-item"><strong>Cyber Security fundamentals</strong> — beginning basics</div>
+        <div class="timeline-item"><strong>Web development</strong> — expanding full-stack perspective</div>
+        <div class="timeline-item"><strong>Software engineering concepts</strong> — learning structured development</div>
+      </div>
+    </section>
+
+    <!-- OSTRA SECTION -->
+    <section class="section section-dark" id="ostra">
+      <span class="section-sub" style="color:#a7b8c9;">Motivation</span>
+      <h2>Why OSTRA?</h2>
+      <p style="color:#d0dae4; margin-bottom:2rem;">I want to join OSTRA not only to gain organizational experience, but also to learn, grow, collaborate, and contribute.</p>
+      <div class="card-grid">
+        <div class="dark-card"><h3>Teamwork</h3><p>Learning how to collaborate and build a solid team.</p></div>
+        <div class="dark-card"><h3>Communication</h3><p>Improving communication skills and becoming more confident in sharing ideas.</p></div>
+        <div class="dark-card"><h3>Contribution</h3><p>Contributing through the skills and abilities I have developed.</p></div>
+        <div class="dark-card"><h3>Multimedia</h3><p>Helping create creative, unique, and memorable multimedia content for OSTRA.</p></div>
+      </div>
+      <p style="margin-top:2rem; color:#b7c3d0;">I want to use my interests in technology and multimedia to contribute to a more active, creative, and positive school environment.</p>
+    </section>
+
+    <!-- EXPECTATION -->
+    <section class="section" id="expectation">
+      <span class="section-sub">Vision</span>
+      <h2>If I Become Part of OSTRA</h2>
+      <p>I hope to become part of a solid and active team, gain new experiences, improve my communication and teamwork skills, and continue developing myself alongside OSTRA 26/27.</p>
+      <p style="font-weight:600; margin-top:1.5rem;">Learn. Contribute. Grow.</p>
+    </section>
+
+    <!-- PERSONAL INTERESTS -->
+    <section class="section" id="interests">
+      <span class="section-sub">Beyond Technology</span>
+      <h2>Personal Interests</h2>
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(150px,1fr));">
+        <div class="card">Anime</div>
+        <div class="card">Gaming</div>
+        <div class="card">Creative Editing</div>
+        <div class="card">Exploring Technology</div>
+        <div class="card">Cooking</div>
+      </div>
+    </section>
+
+    <!-- SOCIAL & CONTACT -->
+    <section class="section" id="contact">
+      <span class="section-sub">Get in touch</span>
+      <h2>Let's Connect</h2>
+      <div class="contact-links">
+        <a href="#" class="contact-icon-link"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-6h2v6zm-1-7.2c-.69 0-1.25-.56-1.25-1.25S9.31 6.3 10 6.3s1.25.56 1.25 1.25S10.69 8.8 10 8.8zM17 16h-2v-3.2c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5V16h-2v-6h2v.7c.39-.43.95-.7 1.56-.7 1.22 0 2.44.98 2.44 2.2V16z"/></svg> WhatsApp +62 852-3164-7788</a>
+        <a href="#" class="contact-icon-link"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 5.8 2.6 5.8 5.8 0 1.5-.6 2.9-1.5 3.9-.7.8-1.6 1.3-2.6 1.6l-.8.2v2.3h-2v-3.6l1-.3c1.2-.4 2.2-1.2 2.9-2.1.5-.7.8-1.5.8-2.5 0-2.3-1.6-4.1-3.9-4.1s-4 1.8-4 4.1c0 1 .3 1.8.8 2.5.7.9 1.7 1.7 2.9 2.1l1 .3V20H9.4v-2.3l-.8-.2c-1-.3-1.9-.8-2.6-1.6-.9-1-1.5-2.4-1.5-3.9 0-3.2 2.6-5.8 5.8-5.8zm0-2C7.4.2 4 3.6 4 8c0 2.2 1 4.1 2.6 5.5.5.5 1.1.9 1.7 1.2v4.3l2-1.6c.5.1 1.1.2 1.7.2s1.2-.1 1.7-.2l2 1.6v-4.3c.6-.3 1.2-.7 1.7-1.2C19 12.1 20 10.2 20 8c0-4.4-3.6-7.8-8-7.8z"/></svg> Instagram @mmh.cxm.id / @czenith.dev</a>
+        <a href="#" class="contact-icon-link"><svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6zm11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.94-.83 1.51-1.77 1.76-.47.13-1.1.22-1.9.28-.8.07-1.49.1-2.09.1L12 19c-2.19 0-3.8-.16-4.83-.44-.94-.25-1.51-.83-1.76-1.77-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.94.83-1.51 1.77-1.76.47-.13 1.1-.22 1.9-.28.8-.07 1.49-.1 2.09-.1L12 5c2.19 0 3.8.16 4.83.44.94.25 1.51.83 1.76 1.77z"/></svg> YouTube @Nezzzc</a>
+        <a href="#" class="contact-icon-link"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg> Email ciello.0508@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="font-weight:600; color:#fff;">Marciello Mighty Hadianto</div>
+    <div>Ciello • X-TKJ-1</div>
+    <div class="footer-links">
+      <a href="#">WhatsApp</a>
+      <a href="https://www.instagram.com/cxm.id/">Instagram</a>
+      <a href="https://www.youtube.com/@Nezzzc">YouTube</a>
+    </div>
+    <div style="margin-top:1rem; font-size:0.8rem; color:#7f8c9d;">OSTRA 26/27 Candidate</div>
+  </footer>
+
+  <script>
+    (function() {
+      const hamburger = document.getElementById('hamburgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('show');
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('show');
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+          mobileMenu.classList.remove('show');
+        }
+      });
+
+      // subtle reveal on scroll (no excessive animation)
+      const sections = document.querySelectorAll('.section, .hero-dark');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.08 });
+
+      sections.forEach(section => {
+        section.style.opacity = '0.7';
+        section.style.transform = 'translateY(6px)';
+        section.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        observer.observe(section);
+      });
+    })();
+  </script>
+</body>
+</html>
